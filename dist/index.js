@@ -96,8 +96,11 @@ app.use(function (req, res) {
   res.send({ error: '404, not found' });
 });
 
+console.log(process.env.NODE_ENV);
+
 /* istanbul ignore next */
 if (!module.parent) {
-  app.listen(3000);
-  console.log('Express started on port 3000');
+  var port = process.env.NODE_ENV === 'development' ? 3000 : 8080;
+  app.listen(port);
+  console.log('Express started on port ' + port);
 }
