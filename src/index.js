@@ -15,7 +15,7 @@ function error(status, msg) {
 }
 
 function challengeMe(error){
-	return Client.Web.Challenge.resolve(error)
+	return InstagramV1.Web.Challenge.resolve(error)
 		.then(function(challenge){
 			// challenge instanceof Client.Web.Challenge
 			console.log(challenge.type);
