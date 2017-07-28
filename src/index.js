@@ -31,8 +31,9 @@ function challengeMe(error){
 		})
 		.then(function(challenge){
 			// And we got the account confirmed!
-			// so let's login again
-			return loginAndFollow(device, storage, user, password);
+      // so let's login again
+      return 'some'
+			// return loginAndFollow(device, storage, user, password);
 		})
 }
 
