@@ -25,6 +25,11 @@ app.get('/api/instagram/login', (req, res, next) => {
   storage = new InstagramV1.CookieFileStorage(__dirname + `/../.cookies/instagram-${user}.json`)
 
   return InstagramV1.Session.create(device, storage, user, pass)
+    .catch(InstagramV1.Exceptions.CheckpointError, function(error){
+      // Ok now we know that Instagram is asking us to
+      // prove that we are real users
+      return next(error);
+    }) 
     .then((session) => {
       InstagramSession = session
       return InstagramV1.Account.searchForUser(session, user)
