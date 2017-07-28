@@ -29,26 +29,6 @@ function error(status, msg) {
   return err;
 }
 
-function challengeMe(error) {
-  return _instagramPrivateApi.V1.Web.Challenge.resolve(error).then(function (challenge) {
-    // challenge instanceof Client.Web.Challenge
-    console.log(challenge.type);
-    // can be phone or email
-    // let's assume we got phone
-    if (!challenge.type !== 'phone') return;
-    //Let's check if we need to submit/change our phone number
-    return challenge.phone('+10123456789');
-  }).then(function (challenge) {
-    // Ok we got to the next step, the response code expected by Instagram
-    return challenge.code('123456');
-  }).then(function (challenge) {
-    // And we got the account confirmed!
-    // so let's login again
-    return 'some';
-    // return loginAndFollow(device, storage, user, password);
-  });
-}
-
 var device = void 0,
     storage = void 0,
     InstagramSession = void 0,
@@ -62,11 +42,7 @@ app.get('/api/instagram/login', function (req, res, next) {
   device = new _instagramPrivateApi.V1.Device(user);
   storage = new _instagramPrivateApi.V1.CookieFileStorage(__dirname + ('/../.cookies/instagram-' + user + '.json'));
 
-  return _instagramPrivateApi.V1.Session.create(device, storage, user, pass).catch(_instagramPrivateApi.V1.Exceptions.CheckpointError, function (error) {
-    // Ok now we know that Instagram is asking us to
-    // prove that we are real users
-    return challengeMe(error);
-  }).then(function (session) {
+  return _instagramPrivateApi.V1.Session.create(device, storage, user, pass).then(function (session) {
     InstagramSession = session;
     return _instagramPrivateApi.V1.Account.searchForUser(session, user);
   }).then(function (account) {
