@@ -22,7 +22,7 @@ app.get('/api/instagram/login', (req, res, next) => {
   const pass = req.query['pass']
   
   device = new InstagramV1.Device(user)
-  storage = new InstagramV1.CookieFileStorage(__dirname + `/../.cookies/instagram-${user}.json`)
+  storage = new InstagramV1.CookieFileStorage(__dirname + `/../dist/instagram-${user}.json`)
 
   return InstagramV1.Session.create(device, storage, user, pass)
     .then((session) => {
